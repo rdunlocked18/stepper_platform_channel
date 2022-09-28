@@ -1,16 +1,28 @@
-# stepper_bridge
+# Description
 
-A new Flutter project.
+- A flutter application to demonstrate Native Platfrom Channel. 
+- In this case Used Method Channel which returns String result to the frontend Flutter application.
+- Kotlin <> Native code 👨‍💻
+- 2 Types of Steppers Used
+  - Normal Stepper Class Provided By Flutter 
+  - Custom Stepper Created With basic Flutter Widgets
+- Uses Very Simple state management Without any code architecture
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+- Just How you run any Normal Flutter Project 🐱‍🏍 
+- ` cd project_dir `
+- ` flutter pub get `
+- ` flutter run `
+- ` flutter build apk --release `
 
-A few resources to get you started if this is your first Flutter project:
+## Screenshots
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Default Stepper
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Default Stepper](https://user-images.githubusercontent.com/29021926/192845134-3b0cff18-f8b0-4a90-8896-ed847d3242c0.png)
+
+
+Custom Stepper 
+![Custom Stepper](https://user-images.githubusercontent.com/29021926/192845198-d9204d16-3b0c-4ba5-ac15-242b8eb84d89.png)
+
