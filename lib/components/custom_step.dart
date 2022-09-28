@@ -4,7 +4,6 @@ import 'package:stepper_bridge/utils/app_constants.dart';
 class CustomStep extends StatelessWidget {
   final String label;
   final String content;
-
   final int index;
   final int currentStep;
   final VoidCallback onFinishedClicked;
@@ -24,6 +23,7 @@ class CustomStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // IntrinsicHeight will make sure we don't have render drawing issues when infinite height is available.
     return IntrinsicHeight(
       child: Row(
         children: [
@@ -47,6 +47,7 @@ class CustomStep extends StatelessWidget {
                             Icons.check,
                           ),
                   ),
+                  // Last Index hence the Extended Line Wont Appear.
                   index == 2
                       ? Container()
                       : Expanded(
@@ -77,6 +78,7 @@ class CustomStep extends StatelessWidget {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+                  // Hide Everything except Heading when we are not on same Index.
                   if (currentStep == index)
                     const SizedBox(
                       height: 20,

@@ -43,11 +43,14 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 
   void _getTextViaPlatfromChannel(int index) async {
-    debugPrint("called");
+    // Initialize Method channel with KEY on both Sides Flutter<>Native
     try {
       const methodChannel = MethodChannel(methodChannelKey);
+      // stepIndex passed as String Argument
       var value = await methodChannel
           .invokeMethod('getTextForStepper', {"stepIndex": "$index"});
+
+      // Mark :- Are we getting value ?
       debugPrint('Value $value');
       setState(() {
         platformText = '$value';
@@ -70,6 +73,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     });
   }
 
+  // reset stepper to step 0 and get the index 0 value from channel
   void _resetStepper() {
     setState(() {
       isFinished = false;
@@ -78,6 +82,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     });
   }
 
+  // flip the view to show the Custom or Default Stepper [FAB]
   void _flipView() {
     setState(() {
       isFlipped = !isFlipped;
