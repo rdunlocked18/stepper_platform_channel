@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stepper_bridge/components/completed_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -99,95 +100,193 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: isFinished
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: const EdgeInsets.all(28.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            _buildStepper(false, 'Select Campaign settings', platformText,
+                _currentStep == 0, 0),
+            _buildStepper(false, 'Create an ad group', platformText,
+                _currentStep == 1, 1),
+            _buildStepper(
+                true, 'Create an ad', platformText, _currentStep == 2, 2),
+          ],
+        ),
+      ),
+      // body: isFinished
+      //     ? CompletedWidget(onResetClicked: _resetStepper)
+      //     : Stepper(
+      //         currentStep: _currentStep,
+      //         elevation: 1,
+      //         onStepContinue: _onStepContinueClicked,
+      //         onStepCancel: _onStepCancelClicked,
+      //         onStepTapped: (index) => _onStepTapped(index),
+      //         type: StepperType.vertical,
+      //         controlsBuilder: (context, details) => Padding(
+      //           padding: const EdgeInsets.only(top: 16.0),
+      //           child: Row(
+      //             children: [
+      //               ElevatedButton(
+      //                 onPressed: _currentStep == 2
+      //                     ? _onFinishedClicked
+      //                     : _onStepContinueClicked,
+      //                 child: _currentStep < 2
+      //                     ? const Text('Continue')
+      //                     : const Text('Finish'),
+      //               ),
+      //               const SizedBox(
+      //                 width: 10,
+      //               ),
+      //               TextButton(
+      //                 onPressed:
+      //                     _currentStep == 0 ? null : _onStepCancelClicked,
+      //                 child: Text(
+      //                   'Back',
+      //                   style: TextStyle(
+      //                       color:
+      //                           _currentStep == 0 ? Colors.grey : Colors.blue),
+      //                 ),
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //         steps: [
+      //           Step(
+      //             title: const Text('Select Campaign settings'),
+      //             content: Text(platformText),
+      //             isActive: _currentStep > 0,
+      //             state:
+      //                 _currentStep > 0 ? StepState.complete : StepState.indexed,
+      //           ),
+      //           Step(
+      //             title: const Text('Create an ad group'),
+      //             content: Text(platformText),
+      //             isActive: _currentStep > 1,
+      //             state:
+      //                 _currentStep > 1 ? StepState.complete : StepState.indexed,
+      //           ),
+      //           Step(
+      //               title: const Text('Create an ad'),
+      //               content: Text(platformText),
+      //               isActive: _currentStep == 2,
+      //               state: _currentStep > 2
+      //                   ? StepState.complete
+      //                   : StepState.indexed,
+      //               subtitle: const Text('Last Step')),
+      //         ],
+      //       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        tooltip: 'Increment',
+        icon: const Icon(Icons.flip),
+        label: const Text('Custom Stepper'),
+      ),
+    );
+  }
+
+  Widget _buildStepper(
+      bool isLast, String label, String content, bool isVisible, int index) {
+    return IntrinsicHeight(
+      child: Row(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Ad Posted !',
-                    style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  ElevatedButton(
-                    onPressed: _resetStepper,
-                    child: const Text('Reset'),
-                  ),
+                  isLast == true
+                      ? Container(
+                          height: 30,
+                          width: 30,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(child: Text('${index + 1}')),
+                        )
+                      : const CircleAvatar(
+                          radius: 15,
+                          backgroundColor: Colors.blue,
+                          child: Icon(
+                            Icons.check,
+                          ),
+                        ),
+                  isLast == true
+                      ? Container()
+                      : Expanded(
+                          child: Container(
+                            height: 32,
+                            width: 2.5,
+                            color: Colors.blue,
+                          ),
+                        )
                 ],
               ),
-            )
-          : Stepper(
-              currentStep: _currentStep,
-              elevation: 1,
-              onStepContinue: _onStepContinueClicked,
-              onStepCancel: _onStepCancelClicked,
-              onStepTapped: (index) => _onStepTapped(index),
-              type: StepperType.vertical,
-              controlsBuilder: (context, details) => Padding(
-                padding: const EdgeInsets.only(top: 16.0),
-                child: Row(
+            ],
+          ),
+          Visibility(
+            visible: isVisible,
+            child: Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    bottom: _currentStep > 1 == true ? 0 : 32, left: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ElevatedButton(
-                      onPressed: _currentStep == 2
-                          ? _onFinishedClicked
-                          : _onStepContinueClicked,
-                      child: _currentStep < 2
-                          ? const Text('Continue')
-                          : const Text('Finish'),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      label,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     const SizedBox(
-                      width: 10,
+                      height: 20,
                     ),
-                    TextButton(
-                      onPressed:
-                          _currentStep == 0 ? null : _onStepCancelClicked,
-                      child: Text(
-                        'Back',
-                        style: TextStyle(
-                            color:
-                                _currentStep == 0 ? Colors.grey : Colors.blue),
+                    Text(
+                      content,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: _currentStep == 2
+                                ? _onFinishedClicked
+                                : _onStepContinueClicked,
+                            child: _currentStep < 2
+                                ? const Text('Continue')
+                                : const Text('Finish'),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          TextButton(
+                            onPressed:
+                                _currentStep == 0 ? null : _onStepCancelClicked,
+                            child: Text(
+                              'Back',
+                              style: TextStyle(
+                                  color: _currentStep == 0
+                                      ? Colors.grey
+                                      : Colors.blue),
+                            ),
+                          )
+                        ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
-              steps: [
-                Step(
-                  title: const Text('Select Campaign settings'),
-                  content: Text(platformText),
-                  isActive: _currentStep > 0,
-                  state:
-                      _currentStep > 0 ? StepState.complete : StepState.indexed,
-                ),
-                Step(
-                  title: const Text('Create an ad group'),
-                  content: Text(platformText),
-                  isActive: _currentStep > 1,
-                  state:
-                      _currentStep > 1 ? StepState.complete : StepState.indexed,
-                ),
-                Step(
-                    title: const Text('Create an ad'),
-                    content: Text(platformText),
-                    isActive: _currentStep == 2,
-                    state: _currentStep > 2
-                        ? StepState.complete
-                        : StepState.indexed,
-                    subtitle: const Text('Last Step')),
-              ],
             ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ),
+          )
+        ],
+      ),
     );
   }
 }
